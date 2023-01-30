@@ -43,7 +43,7 @@ export const handler: CloudFrontRequestHandler = async (event) => {
     // This is done by redirecting the user to the refresh path.
     // If the refresh works, the user will be redirected back here (this time with valid JWTs)
     if (err instanceof common.JwtExpiredError) {
-      CONFIG.logger.debug("Redirecting user to refresh path");
+      CONFIG.logger.debug("Redirecting THE CURRENT user to refresh path.  Why won't you update");
       return redirectToRefreshPath({ domainName, requestedUri });
     }
 
@@ -56,7 +56,7 @@ export const handler: CloudFrontRequestHandler = async (event) => {
     }
 
     // Send the user to the Cognito Hosted UI to sign-in
-    CONFIG.logger.debug("Redirecting user to Cognito Hosted UI to sign-in");
+    CONFIG.logger.debug("Redirecting THE user to Cognito Hosted UI to sign-in");
     return redirectToCognitoHostedUI({ domainName, requestedUri });
   }
 };
@@ -81,6 +81,7 @@ function redirectToCognitoHostedUI({
     ...generatePkceVerifier(),
   };
   CONFIG.logger.debug("Using new state\n", state);
+  CONFIG.logger.debug("MIKE DID A DEBUG THING");
 
   const loginQueryString = stringifyQueryString({
     redirect_uri: `https://${domainName}${CONFIG.redirectPathSignIn}`,
@@ -100,14 +101,16 @@ function redirectToCognitoHostedUI({
   });
 
   // Return redirect to Cognito Hosted UI for sign-in
+  let redirectLocation = CONFIG.loginRedirectURL ?? `https://${CONFIG.cognitoAuthDomain}/oauth2/authorize?${loginQueryString}`
+  CONFIG.logger.debug("REDIRECTLOCATION == " + redirectLocation);
   const response = {
     status: "307",
-    statusDescription: "Temporary Redirect",
+    statusDescription: "Temporary Redirect for now.",
     headers: {
       location: [
         {
           key: "location",
-          value: `https://${CONFIG.cognitoAuthDomain}/oauth2/authorize?${loginQueryString}`,
+          value: redirectLocation,
         },
       ],
       "set-cookie": [

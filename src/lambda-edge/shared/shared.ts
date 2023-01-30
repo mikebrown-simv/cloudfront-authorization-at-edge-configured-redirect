@@ -79,10 +79,10 @@ interface ConfigFromDiskComplete extends ConfigFromDiskWithHeaders {
   jwks: Jwks;
   clientId: string;
   oauthScopes: string[];
-  cognitoAuthDomain: string;
-  redirectPathSignIn: string;
-  redirectPathSignOut: string;
-  signOutUrl: string;
+  cognitoAuthDomain: string;  // The URL for Cognito (ie. my-domain.auth.<region>.amazoncognito.com)
+  redirectPathSignIn: string; // Path to redirect to after a login
+  redirectPathSignOut: string; // Path to redirect to after a sign-out
+  signOutUrl: string; // The URL for the sign-out action
   redirectPathAuthRefresh: string;
   cookieSettings: CookieSettings;
   mode: Mode;
@@ -95,6 +95,8 @@ interface ConfigFromDiskComplete extends ConfigFromDiskWithHeaders {
   pkceLength?: number;
   nonceLength?: number;
   nonceMaxAge?: number;
+  // Added fields to allow redirect to non-cognito-hosted-ui locations
+  loginRedirectURL?: string;   // The string to redirect to on a login attempt, if not specified will use AWS Cognito Hosted UI
 }
 
 function isConfigWithHeaders(config: any): config is ConfigFromDiskComplete {
