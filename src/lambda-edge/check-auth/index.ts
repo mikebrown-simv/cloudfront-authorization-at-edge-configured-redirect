@@ -43,7 +43,7 @@ export const handler: CloudFrontRequestHandler = async (event) => {
     // This is done by redirecting the user to the refresh path.
     // If the refresh works, the user will be redirected back here (this time with valid JWTs)
     if (err instanceof common.JwtExpiredError) {
-      CONFIG.logger.debug("Redirecting THE CURRENT user to refresh path.  Why won't you update");
+      CONFIG.logger.debug("Redirecting THE CURRENT user to refresh path.");
       return redirectToRefreshPath({ domainName, requestedUri });
     }
 
