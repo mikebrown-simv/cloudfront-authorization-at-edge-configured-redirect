@@ -144,3 +144,6 @@ CD.sh
 PUB.sh
 CREATE.sh
 tsconfig.tsbuildinfo
+
+# Configuration to hold the configuration for deployment
+samconfig.toml
