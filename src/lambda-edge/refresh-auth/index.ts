@@ -125,7 +125,7 @@ function validateRefreshRequest(
 ) {
   if (!originalNonce) {
     throw new Error(
-      "Your browser didn't send the nonce cookie along, but it is required for security (prevent CSRF)."
+      "Your browser didn't send the nonce cookie along, but it is required for security (prevent CSRF). Please contant an administrator"
     );
   }
   if (currentNonce !== originalNonce) {

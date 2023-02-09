@@ -38,7 +38,7 @@ Parameters:
   loginRedirectURL:
     Type: String
     Description: The location of the redirect URL
-    Default: "/landing"
+    Default: "/"
   RedirectPathSignIn:
     Type: String
     Description: The URL path that should handle the redirect from Cognito after sign-in
@@ -154,7 +154,7 @@ Parameters:
   Version:
     Type: String
     Description: "Changing this parameter after initial deployment forces redeployment of Lambda@Edge functions"
-    Default: "2.1.5"
+    Default: "2.1.7"
   LogLevel:
     Type: String
     Description: "Use for development: setting to a value other than none turns on logging at that level. Warning! This will log sensitive data, use for development only"

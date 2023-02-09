@@ -288,14 +288,21 @@ export function getAmplifyCookieNames(
   clientId: string,
   cookiesOrUserName: Cookies | string
 ) {
+  let config = getConfig();
+  let logger = config.logger;
   const keyPrefix = `CognitoIdentityServiceProvider.${clientId}`;
   const lastUserKey = `${keyPrefix}.LastAuthUser`;
+  logger.debug(`lastUserKey = ${lastUserKey}`);
   let tokenUserName: string;
   if (typeof cookiesOrUserName === "string") {
+    logger.debug("cookiesOrUsername is a string");
     tokenUserName = cookiesOrUserName;
   } else {
+    logger.debug("cookiesOrUsername is a cookie array or whatever I guess");
     tokenUserName = cookiesOrUserName[lastUserKey];
   }
+  logger.debug(`keyPrefix = ${keyPrefix} | tokenUserName = ${tokenUserName}`)
+
   return {
     lastUserKey,
     userDataKey: `${keyPrefix}.${tokenUserName}.userData`,
@@ -324,14 +331,20 @@ export function extractAndParseCookies(
   if (!cookies) {
     return {};
   }
-
+let config = getConfig();
+let logger = config.logger;
   let cookieNames: { [name: string]: string };
   if (cookieCompatibility === "amplify") {
+    logger.debug("AMPLIFY COOKIES FOUND");
     cookieNames = getAmplifyCookieNames(clientId, cookies);
+    logger.debug("COOKIE NAMES == " );
+    logger.debug(cookieNames);
   } else {
+    logger.debug("ES COOKIES FOUND");
     cookieNames = getElasticsearchCookieNames();
   }
-
+logger.debug("ALL COOKIES FOUND ==> " );
+  logger.debug(cookies);
   return {
     tokenUserName: cookies[cookieNames.lastUserKey],
     idToken: cookies[cookieNames.idTokenKey],
